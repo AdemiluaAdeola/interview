@@ -2,59 +2,32 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-md-8 mx-auto">
-        <h2 class="mb-4">Polling Unit Results</h2>
-        
-        <form method="get" class="mb-4">
-            <div class="input-group">
-                <input type="number" class="form-control" name="polling_unit_id" placeholder="Enter Polling Unit ID" 
-                       value="{{ request.GET.polling_unit_id|default:'' }}">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
-        </form>
-        
-        {% if polling_unit %}
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Polling Unit Details</h5>
-                </div>
-                <div class="card-body">
-                    <p><strong>Name:</strong> {{ polling_unit.polling_unit_name }}</p>
-                    <p><strong>Ward:</strong> {{ polling_unit.ward.ward_name }}</p>
-                    <p><strong>LGA:</strong> {{ polling_unit.lga.lga_name }}</p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h5>Election Results</h5>
-                </div>
-                <div class="card-body">
-                    {% if results %}
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Party</th>
-                                    <th>Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for result in results %}
-                                    <tr>
-                                        <td>{{ result.party_abbreviation }}</td>
-                                        <td>{{ result.party_score }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% else %}
-                        <p>No results found for this polling unit.</p>
-                    {% endif %}
-                </div>
-            </div>
-        {% elif request.GET.polling_unit_id %}
-            <div class="alert alert-warning">No polling unit found with ID {{ request.GET.polling_unit_id }}</div>
-        {% endif %}
+    <div class="col-md-8 mx-auto">        
+        <h1>Results for Polling Unit: {{ polling_unit.polling_unit_name|default:"Unknown" }}</h1>
+    <p>Number: {{ polling_unit.polling_unit_number|default:"N/A" }}</p>
+    <p>Description: {{ polling_unit.polling_unit_description|default:"No description available" }}</p>
+    
+    {% if results %}
+    <h2>Party Results:</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Party</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.party_abbreviation }}</td>
+                <td>{{ result.party_score }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No results available for this polling unit.</p>
+    {% endif %}
     </div>
 </div>
 {% endblock %}
