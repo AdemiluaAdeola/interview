@@ -74,40 +74,37 @@ WSGI_APPLICATION = 'election.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-
     'default': {
-
-        #'ENGINE': 'django.db.backends.sqlite3',
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'railway',
-
-        'USER': 'postgres',
-
-        'PASSWORD': 'YOdrOnovBBouooOcqiBtMrsXJWXLUbzH',
-
-        'HOST': 'postgres-production-ce73.up.railway.app',
-
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-            'connect_timeout': 10,  # Increase timeout
-        },
-        'CONN_MAX_AGE': 300,  # Helps with connection pooling
-
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-
 }
 
+# DATABASES = {
+
+#     'default': {
+
+#         #'ENGINE': 'django.db.backends.sqlite3',
+
+#         'ENGINE': 'django.db.backends.postgresql',
+
+#         'NAME': 'railway',
+
+#         'USER': 'postgres',
+
+#         'PASSWORD': 'YOdrOnovBBouooOcqiBtMrsXJWXLUbzH',
+
+#         'HOST': 'postgres-production-ce73.up.railway.app',
+
+#         'PORT': '5432',
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#             'connect_timeout': 10,  # Increase timeout
+#         },
+#         'CONN_MAX_AGE': 300,  # Helps with connection pooling
+
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

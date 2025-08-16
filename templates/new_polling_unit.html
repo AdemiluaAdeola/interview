@@ -1,77 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-        <h2 class="mb-4">Add New Polling Unit Results</h2>
+<head>
+    <title>New Polling Unit Results</title>
+</head>
+<body>
+    <h1>Enter New Polling Unit Results</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.polling_unit.label_tag }} {{ form.polling_unit }}
         
-        <form method="post">
-            {% csrf_token %}
-            
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Polling Unit Information</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label for="polling_unit_name" class="form-label">Polling Unit Name</label>
-                        <input type="text" class="form-control" id="polling_unit_name" name="polling_unit_name" required>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="lga_id" class="form-label">LGA</label>
-                            <select class="form-select" id="lga_id" name="lga_id" required 
-                                    hx-get="{% url 'new_polling_unit' %}" hx-target="#ward-container" hx-trigger="change">
-                                <option value="">Select LGA</option>
-                                {% for lga in lgas %}
-                                    <option value="{{ lga.lga_id }}">{{ lga.lga_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="ward_id" class="form-label">Ward</label>
-                            <div id="ward-container">
-                                <select class="form-select" id="ward_id" name="ward_id" required disabled>
-                                    <option value="">Select LGA first</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5>Party Results</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Party</th>
-                                <th>Votes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for party in parties %}
-                                <tr>
-                                    <td>{{ party.partyname }}</td>
-                                    <td>
-                                        <input type="number" class="form-control" 
-                                               name="party_{{ party.partyid }}" min="0" value="0">
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Submit Results</button>
-        </form>
-    </div>
-</div>
+        <h2>Party Results:</h2>
+        {% for party in parties %}
+        <div>
+            <label>{{ party.partyname }}:</label>
+            <input type="number" name="party_{{ party.partyid }}" min="0" required>
+        </div>
+        {% endfor %}
+        
+        <button type="submit">Submit Results</button>
+    </form>
+</body>
+
 {% endblock %}
 
 {% block scripts %}
