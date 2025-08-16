@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h2 class="mb-4">LGA Results Summary</h2>
+        
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8">
+                    <select name="lga_id" class="form-select" required>
+                        <option value="">Select LGA</option>
+                        {% for lga in lgas %}
+                            <option value="{{ lga.lga_id }}" {% if selected_lga and selected_lga.lga_id == lga.lga_id %}selected{% endif %}>
+                                {{ lga.lga_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">Get Results</button>
+                </div>
+            </div>
+        </form>
+        
+        {% if selected_lga %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5>Results for {{ selected_lga.lga_name }}</h5>
+                </div>
+                <div class="card-body">
+                    {% if summed_results %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Party</th>
+                                    <th>Total Votes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for party, score in summed_results.items %}
+                                    <tr>
+                                        <td>{{ party }}</td>
+                                        <td>{{ score }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No results found for polling units in this LGA.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
